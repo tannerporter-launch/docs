@@ -43,8 +43,8 @@ module.exports = {
       L.endLogo(c, t, END + .3);
       L.words(c, [["You can't automate ", C.ink], ['chaos.', C.warm]], 960, 430, { size: 118, maxW: 1700 }, t, END + .5, .13);
       L.words(c, 'Simplify first, automate last.', 960, 620, { size: 64, weight: 700, color: C.blue }, t, END + 2.2, .1);
-      const u = eo(prog(t, END + 4.4, END + 5.2)); c.save(); c.globalAlpha *= u; L.rrect(c, 960 - 520, 760 + (1 - u) * 30, 1040, 110, 55); c.fillStyle = C.deep; c.fill();
-      L.text(c, 'Book a free 15-minute call  ·  systematagrowth.com', 960, 827 + (1 - u) * 30, { size: 34, weight: 700, color: '#fff', align: 'center' }); c.restore(); c.restore(); }
+      const u = eo(prog(t, END + 4.4, END + 5.2)); c.save(); c.globalAlpha *= u; L.rrect(c, 960 - 380, 760 + (1 - u) * 30, 760, 110, 55); c.fillStyle = C.deep; c.fill();
+      L.text(c, 'Book a call  ·  getsystemata.com', 960, 827 + (1 - u) * 30, { size: 40, weight: 700, color: '#fff', align: 'center' }); c.restore(); c.restore(); }
   }
 };
 

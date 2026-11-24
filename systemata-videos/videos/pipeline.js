@@ -73,8 +73,8 @@ module.exports = {
     if (a > 0) { c.save(); c.globalAlpha = a;
       L.endLogo(c, t, 28.7);
       L.words(c, [['Trading chaos', C.warm], ['for clarity.', C.blue]], 960, 440, { size: 140, maxW: 1100 }, t, 28.9, .22, .7);
-      const u = eo(prog(t, 31.0, 31.8)), w = 1040; c.save(); c.globalAlpha *= u;
+      const u = eo(prog(t, 31.0, 31.8)), w = 760; c.save(); c.globalAlpha *= u;
       L.rrect(c, 960 - w / 2, 690 + (1 - u) * 30, w, 110, 55); c.fillStyle = C.deep; c.fill();
-      L.text(c, 'Book a free 15-minute call  ·  systematagrowth.com', 960, 757 + (1 - u) * 30, { size: 34, weight: 700, color: '#fff', align: 'center' }); c.restore(); c.restore(); }
+      L.text(c, 'Book a call  ·  getsystemata.com', 960, 757 + (1 - u) * 30, { size: 40, weight: 700, color: '#fff', align: 'center' }); c.restore(); c.restore(); }
   }
 };

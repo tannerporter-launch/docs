@@ -47,7 +47,7 @@ module.exports = {
     if (a > 0) { c.save(); c.globalAlpha = a;
       L.endLogo(c, t, 43.4);
       L.words(c, [['Trading chaos', C.warm], ['for clarity.', C.blue]], 960, 430, { size: 130, maxW: 1100 }, t, 43.6, .2, .7);
-      const u = eo(prog(t, 45.6, 46.4)); c.save(); c.globalAlpha *= u; L.rrect(c, 960 - 520, 700 + (1 - u) * 30, 1040, 110, 55); c.fillStyle = C.deep; c.fill();
-      L.text(c, 'Book a free 15-minute call  ·  systematagrowth.com', 960, 767 + (1 - u) * 30, { size: 34, weight: 700, color: '#fff', align: 'center' }); c.restore(); c.restore(); }
+      const u = eo(prog(t, 45.6, 46.4)); c.save(); c.globalAlpha *= u; L.rrect(c, 960 - 380, 700 + (1 - u) * 30, 760, 110, 55); c.fillStyle = C.deep; c.fill();
+      L.text(c, 'Book a call  ·  getsystemata.com', 960, 767 + (1 - u) * 30, { size: 40, weight: 700, color: '#fff', align: 'center' }); c.restore(); c.restore(); }
   }
 };

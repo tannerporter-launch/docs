@@ -1,0 +1,31 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Systemata video player v3</title>
+<style>html,body{margin:0;background:#000}canvas{display:block;width:1920px;height:1080px}</style></head>
+<body><canvas id="cv"></canvas><canvas id="acc" style="display:none"></canvas>
+<script src="lib3.js"></script><script src="icons.js"></script>
+<script>
+const q = new URLSearchParams(location.search), slug = q.get('v') || 'audit', S = +(q.get('s') || 2), MB = +(q.get('mb') || 5), SHUTTER = .5;
+window.module = { exports: {} };
+const sc = document.createElement('script'); sc.src = 'videos/' + slug + '.js';
+sc.onload = async () => {
+  await L.loadIcons(['#0F5A43', '#ffffff', '#3DDC97', '#0B3D2E', '#E8643C', '#5D6663', '#1C1F1E']);
+  const V = window.module.exports, cv = document.getElementById('cv'), ac = document.getElementById('acc'), W = 1920 * S, H = 1080 * S;
+  cv.width = ac.width = W; cv.height = ac.height = H; const c = cv.getContext('2d'), a = ac.getContext('2d');
+  // film grain tile (deterministic)
+  const gt = document.createElement('canvas'); gt.width = gt.height = 512; const gx = gt.getContext('2d'), id = gx.createImageData(512, 512);
+  for (let i = 0; i < id.data.length; i += 4) { const v = L.rnd(i, 9) * 255; id.data[i] = id.data[i + 1] = id.data[i + 2] = v; id.data[i + 3] = 255; } gx.putImageData(id, 0, 0);
+  const pat = a.createPattern(gt, 'repeat');
+  window.V = V;
+  window.frame = t => {
+    a.setTransform(1, 0, 0, 1, 0, 0); a.globalCompositeOperation = 'source-over';
+    for (let k = 0; k < MB; k++) { const tk = t + ((k + .5) / MB - .5) * SHUTTER / 60; c.setTransform(S, 0, 0, S, 0, 0); c.globalAlpha = 1; V.draw(c, tk, L); a.globalAlpha = 1 / (k + 1); a.drawImage(cv, 0, 0); }
+    a.globalAlpha = 1; // vignette
+    const g = a.createRadialGradient(W / 2, H / 2, H * .45, W / 2, H / 2, H * 1.05); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,' + (.05 + .17 * (V.dark ? V.dark(t) : 1)) + ')'); a.fillStyle = g; a.fillRect(0, 0, W, H);
+    // grain (re-seeded 24x/s like film)
+    const f = Math.floor(t * 24), ox = Math.floor(L.rnd(f, 1) * 512), oy = Math.floor(L.rnd(f, 2) * 512); a.save(); a.globalCompositeOperation = 'soft-light'; a.globalAlpha = .12; a.translate(-ox, -oy); a.fillStyle = pat; a.fillRect(ox, oy, W, H); a.restore();
+    return ac.toDataURL('image/jpeg', .95);
+  };
+  window.__ready = true;
+  if (location.hash !== '#render') { const t0 = performance.now(); (function f(n) { window.frame(((n - t0) / 1000) % V.duration); requestAnimationFrame(f); })(t0); }
+};
+document.head.appendChild(sc);
+</script></body></html>
