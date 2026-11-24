@@ -12,7 +12,7 @@ const total = LIMIT || Math.round(V.duration * FPS), W = +process.env.WORKERS ||
   await b.close(); if (LIMIT) { console.log('limited run done', Math.round((Date.now() - t0) / 1000) + 's for', LIMIT, 'frames'); return; }
   const col = ['-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709'], inp = ['-y', '-loglevel', 'error', '-framerate', String(FPS), '-i', path.join(FR, '%05d.jpg'), '-i', path.join(OUT, 'audio.wav')];
   const dest = path.join(__dirname, '..', `systemata-${slug}-4k.mp4`), dest1080 = path.join(__dirname, '..', `systemata-${slug}-1080p.mp4`);
-  execFileSync('ffmpeg', [...inp, '-vf', 'scale=out_color_matrix=bt709:out_range=tv,format=yuv420p', '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-profile:v', 'high', ...col, '-c:a', 'aac', '-b:a', '256k', '-shortest', '-movflags', '+faststart', dest]);
+  execFileSync('ffmpeg', [...inp, '-vf', 'scale=out_color_matrix=bt709:out_range=tv,format=yuv420p', '-c:v', 'libx264', '-preset', 'medium', '-crf', '23', '-maxrate', '45M', '-bufsize', '90M', '-profile:v', 'high', ...col, '-c:a', 'aac', '-b:a', '256k', '-shortest', '-movflags', '+faststart', dest]);
   execFileSync('ffmpeg', [...inp, '-vf', 'scale=1920:1080:flags=lanczos:out_color_matrix=bt709:out_range=tv,format=yuv420p', '-c:v', 'libx264', '-preset', 'slow', '-crf', '16', '-profile:v', 'high', ...col, '-c:a', 'aac', '-b:a', '256k', '-shortest', '-movflags', '+faststart', dest1080]);
   fs.rmSync(FR, { recursive: true, force: true });
   console.log('done', slug, total, 'frames', Math.round((Date.now() - t0) / 1000) + 's');
