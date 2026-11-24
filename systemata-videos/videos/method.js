@@ -40,10 +40,11 @@ module.exports = {
     // ---- closer
     a = L.env(t, END, 46.2, .5, .1);
     if (a > 0) { c.save(); c.globalAlpha = a;
+      L.endLogo(c, t, END + .3);
       L.words(c, [["You can't automate ", C.ink], ['chaos.', C.warm]], 960, 430, { size: 118, maxW: 1700 }, t, END + .5, .13);
       L.words(c, 'Simplify first, automate last.', 960, 620, { size: 64, weight: 700, color: C.blue }, t, END + 2.2, .1);
-      const u = eo(prog(t, END + 4.4, END + 5.2)); c.save(); c.globalAlpha *= u; L.rrect(c, 960 - 330, 760 + (1 - u) * 30, 660, 110, 55); c.fillStyle = C.ink; c.fill();
-      L.text(c, 'Book a call  ·  getsystemata.com', 960, 827 + (1 - u) * 30, { size: 38, weight: 700, color: '#fff', align: 'center' }); c.restore(); c.restore(); }
+      const u = eo(prog(t, END + 4.4, END + 5.2)); c.save(); c.globalAlpha *= u; L.rrect(c, 960 - 520, 760 + (1 - u) * 30, 1040, 110, 55); c.fillStyle = C.deep; c.fill();
+      L.text(c, 'Book a free 15-minute call  ·  systematagrowth.com', 960, 827 + (1 - u) * 30, { size: 34, weight: 700, color: '#fff', align: 'center' }); c.restore(); c.restore(); }
   }
 };
 

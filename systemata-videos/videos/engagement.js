@@ -45,8 +45,9 @@ module.exports = {
       L.words(c, [['Fixed scope, fixed price, delivered', C.ink], [' or you don’t pay.', C.blue]], 960, 580, { size: 74, maxW: 1200, lh: 1.15 }, t, 36.6, .16, .55); c.restore(); }
     a = L.env(t, 43.2, 48.4, .5, .1);
     if (a > 0) { c.save(); c.globalAlpha = a;
+      L.endLogo(c, t, 43.4);
       L.words(c, [['Trading chaos', C.warm], ['for clarity.', C.blue]], 960, 430, { size: 130, maxW: 1100 }, t, 43.6, .2, .7);
-      const u = eo(prog(t, 45.6, 46.4)); c.save(); c.globalAlpha *= u; L.rrect(c, 960 - 330, 700 + (1 - u) * 30, 660, 110, 55); c.fillStyle = C.ink; c.fill();
-      L.text(c, 'Book a call  ·  getsystemata.com', 960, 767 + (1 - u) * 30, { size: 38, weight: 700, color: '#fff', align: 'center' }); c.restore(); c.restore(); }
+      const u = eo(prog(t, 45.6, 46.4)); c.save(); c.globalAlpha *= u; L.rrect(c, 960 - 520, 700 + (1 - u) * 30, 1040, 110, 55); c.fillStyle = C.deep; c.fill();
+      L.text(c, 'Book a free 15-minute call  ·  systematagrowth.com', 960, 767 + (1 - u) * 30, { size: 34, weight: 700, color: '#fff', align: 'center' }); c.restore(); c.restore(); }
   }
 };

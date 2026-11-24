@@ -1,7 +1,7 @@
 // Shared drawing toolkit. Everything is a pure function of time t (seconds). Canvas 1920x1080.
 (function (root) {
   const L = { W: 1920, H: 1080 };
-  L.C = { paper: '#F7F6F2', ink: '#101426', mut: '#6B7288', blue: '#3B5BFF', blue2: '#E3E8FF', warm: '#FF6B3D', warm2: '#FFE6DC', line: '#DEDBD2', card: '#FFFFFF', ok: '#12B886' };
+  L.C = { paper: '#F5F8F6', ink: '#1C1F1E', mut: '#5D6663', blue: '#0F5A43', deep: '#0B3D2E', mint: '#3DDC97', blue2: '#E1EFE8', warm: '#E8643C', warm2: '#FBE4DB', line: '#E3E8E5', card: '#FFFFFF', ok: '#1AA874' };
   const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
   L.clamp = clamp; L.prog = (t, a, b) => clamp((t - a) / (b - a));
   L.eo = x => 1 - Math.pow(1 - x, 3); L.ei = x => x * x * x; L.eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
@@ -14,15 +14,17 @@
 
   L.bg = (c, t) => {
     c.fillStyle = L.C.paper; c.fillRect(0, 0, L.W, L.H);
-    const g = c.createRadialGradient(1700, 100, 0, 1700, 100, 900); g.addColorStop(0, 'rgba(59,91,255,.10)'); g.addColorStop(1, 'rgba(59,91,255,0)');
+    const g = c.createRadialGradient(1700, 100, 0, 1700, 100, 900); g.addColorStop(0, 'rgba(61,220,151,.14)'); g.addColorStop(1, 'rgba(61,220,151,0)');
     c.fillStyle = g; c.fillRect(0, 0, L.W, L.H);
     c.fillStyle = 'rgba(16,20,38,.08)'; const o = (t * 8) % 64;
     for (let x = -64 + o; x < L.W + 64; x += 64) for (let y = 32; y < L.H; y += 64) { c.beginPath(); c.arc(x, y, 1.6, 0, 6.2832); c.fill(); }
   };
+  // Systemata mark (from the site favicon): emerald rounded square, white / mint / white bars
+  L.logo = (c, x, y, size, a = 1) => { c.save(); c.globalAlpha *= a; c.translate(x, y); c.scale(size / 32, size / 32); L.rrect(c, 0, 0, 32, 32, 6); c.fillStyle = L.C.deep; c.fill();
+    c.fillStyle = '#fff'; c.fillRect(6, 8, 20, 4); c.fillStyle = L.C.mint; c.fillRect(6, 14, 14, 4); c.fillStyle = '#fff'; c.fillRect(6, 20, 20, 4); c.restore(); };
+  L.endLogo = (c, t, t0) => { const a = L.eo(L.prog(t, t0, t0 + .6)); if (a <= 0) return; L.logo(c, 960 - 215, 120, 92, a); L.text(c, 'Systemata', 960 - 215 + 118, 190, { size: 68, weight: 700, color: L.C.deep, alpha: a }); };
   L.chrome = (c, t, dur) => {
-    c.save(); L.rrect(c, 80, 56, 44, 44, 12); c.fillStyle = L.C.blue; c.fill();
-    L.text(c, 'S', 102, 90, { size: 28, weight: 800, color: '#fff', align: 'center' });
-    L.text(c, 'Systemata', 140, 90, { size: 30, weight: 700 });
+    c.save(); L.logo(c, 80, 56, 44); L.text(c, 'Systemata', 138, 90, { size: 30, weight: 700, color: L.C.deep });
     c.fillStyle = L.C.blue; c.fillRect(0, L.H - 8, L.W * clamp(t / dur), 8); c.restore();
   };
   L.rrect = (c, x, y, w, h, r) => { r = Math.min(r, w / 2, h / 2); c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r); c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath(); };
@@ -56,18 +58,11 @@
     if (o.stroke) { c.lineWidth = 2; c.strokeStyle = o.stroke; c.stroke(); } c.restore();
     L.text(c, s, x + w / 2, y + h / 2 + (o.size || 28) * .35, { size: o.size || 28, weight: o.weight || 600, color: o.color || L.C.ink, align: 'center', alpha: o.alpha ?? 1 }); return w;
   };
-  L.icon = (c, name, x, y, s, color, a = 1) => { // centered at x,y, size s
-    c.save(); c.globalAlpha *= a; c.translate(x, y); c.scale(s / 100, s / 100); c.strokeStyle = color; c.fillStyle = color; c.lineWidth = 7; c.lineCap = 'round'; c.lineJoin = 'round';
-    if (name === 'check') { c.beginPath(); c.moveTo(-30, 2); c.lineTo(-8, 24); c.lineTo(32, -22); c.stroke(); }
-    else if (name === 'calendar') { L.rrect(c, -40, -36, 80, 76, 12); c.stroke(); c.beginPath(); c.moveTo(-40, -12); c.lineTo(40, -12); c.moveTo(-18, -48); c.lineTo(-18, -28); c.moveTo(18, -48); c.lineTo(18, -28); c.stroke(); c.fillRect(-22, 6, 16, 16); c.fillRect(6, 6, 16, 16); }
-    else if (name === 'doc') { L.rrect(c, -30, -42, 60, 84, 10); c.stroke(); c.beginPath(); c.moveTo(-14, -14); c.lineTo(14, -14); c.moveTo(-14, 4); c.lineTo(14, 4); c.moveTo(-14, 22); c.lineTo(4, 22); c.stroke(); }
-    else if (name === 'gear') { c.beginPath(); c.arc(0, 0, 18, 0, 6.2832); c.stroke(); for (let i = 0; i < 8; i++) { c.save(); c.rotate(i * Math.PI / 4); c.fillRect(-6, -42, 12, 16); c.restore(); } c.beginPath(); c.arc(0, 0, 30, 0, 6.2832); c.stroke(); }
-    else if (name === 'bolt') { c.beginPath(); c.moveTo(8, -44); c.lineTo(-22, 6); c.lineTo(-2, 6); c.lineTo(-8, 44); c.lineTo(24, -10); c.lineTo(2, -10); c.closePath(); c.fill(); }
-    else if (name === 'search') { c.beginPath(); c.arc(-8, -8, 26, 0, 6.2832); c.stroke(); c.beginPath(); c.moveTo(12, 12); c.lineTo(38, 38); c.stroke(); }
-    else if (name === 'person') { c.beginPath(); c.arc(0, -16, 16, 0, 6.2832); c.fill(); c.beginPath(); c.arc(0, 38, 34, Math.PI, 0); c.fill(); }
-    else if (name === 'chat') { L.rrect(c, -42, -34, 84, 56, 14); c.stroke(); c.beginPath(); c.moveTo(-14, 22); c.lineTo(-22, 42); c.lineTo(4, 22); c.stroke(); }
-    c.restore();
-  };
+  // Lucide icons (ISC), preloaded as images so every frame stays deterministic
+  L.IMG = {}; const norm = col => col === '#fff' ? '#ffffff' : col;
+  L.loadIcons = async colors => { for (const [n, svg] of Object.entries(window.ICONS)) for (const col of colors) { const im = new Image();
+    im.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(svg.replace(/currentColor/g, col).replace('width="24"', 'width="256"').replace('height="24"', 'height="256"').replace('stroke-width="2"', 'stroke-width="1.8"')); await im.decode(); L.IMG[n + col] = im; } };
+  L.icon = (c, name, x, y, s, color, a = 1) => { const im = L.IMG[name + norm(color)]; if (!im) return; c.save(); c.globalAlpha *= a; c.drawImage(im, x - s / 2, y - s / 2, s, s); c.restore(); };
   // queue/gate dot position: dots arrive every dt, wait behind each other, pass the gate one by one.
   L.queuePos = (i, s, o) => {
     const ti = o.t0 + i * o.dt; if (s < ti) return null;

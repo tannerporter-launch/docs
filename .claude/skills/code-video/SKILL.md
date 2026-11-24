@@ -29,3 +29,12 @@ A video is a function of time: `render(t)` draws one frame. Draw 60 per second, 
 - Sound events come from `timeline.js` so picture and audio never drift.
 - Vertical: change viewport to 720x1280 (or scale) and re-layout.
 - Needs: node, Playwright (chromium), FFmpeg. Weak fit: live action / photoreal footage.
+
+## Canvas toolkit v2 (`toolkit-canvas/`, preferred for brand/motion-graphics videos)
+Canvas 1920x1080@60, one module per video in `videos/<slug>.js` exporting `{duration, sfx:[[t,name],...], draw(c,t,L)}`. `node shot.js <slug> sheet.png t1 t2..` to storyboard/QA, `OUT_DIR=<scratch> node render.js <slug>` to render.
+Free/open-source stack used (all installable from apt/npm/pip, no paid services):
+- **Music**: `music.py` (mido) writes MIDI -> **FluidSynth** + FluidR3_GM soundfont (MIT) renders real instruments (`apt-get install fluidsynth fluid-soundfont-gm`)
+- **SFX**: synthesized in `audio.js`; keep `whoosh` very quiet (~-20 dB under music), then **SoX** reverb + mix (`apt-get install sox libsox-fmt-all`), **FFmpeg** loudnorm to -16 LUFS
+- **Icons**: **Lucide** (ISC) via `npm i lucide-static` -> `node build-icons.js` -> `icons.js`
+- **Font**: Inter (OFL). **Render**: Playwright + FFmpeg
+- Brand: read the client's site CSS (`curl` the stylesheet, grep `--vars`/hex) and favicon.svg; put colors in `lib.js` `L.C` and the logo in `L.logo`. If the host is blocked, request it with create_environment/update_environment.

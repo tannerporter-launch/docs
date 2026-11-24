@@ -42,8 +42,9 @@ module.exports = {
       c.restore(); }
     a = L.env(t, V0 + 7 * VD, 38.4, .5, .1);
     if (a > 0) { c.save(); c.globalAlpha = a; const s0 = V0 + 7 * VD;
+      L.endLogo(c, t, s0 + .4);
       L.words(c, [['If this sounds like you, ', C.ink], ['let’s talk.', C.blue]], 960, 420, { size: 118, maxW: 1500 }, t, s0 + .6, .14);
-      const u = eo(prog(t, 33.2, 34)); c.save(); c.globalAlpha *= u; L.rrect(c, 960 - 330, 690 + (1 - u) * 30, 660, 110, 55); c.fillStyle = C.ink; c.fill();
-      L.text(c, 'Learn more  ·  getsystemata.com', 960, 757 + (1 - u) * 30, { size: 38, weight: 700, color: '#fff', align: 'center' }); c.restore(); c.restore(); }
+      const u = eo(prog(t, 33.2, 34)); c.save(); c.globalAlpha *= u; L.rrect(c, 960 - 520, 690 + (1 - u) * 30, 1040, 110, 55); c.fillStyle = C.deep; c.fill();
+      L.text(c, 'Learn more  ·  systematagrowth.com', 960, 757 + (1 - u) * 30, { size: 34, weight: 700, color: '#fff', align: 'center' }); c.restore(); c.restore(); }
   }
 };
